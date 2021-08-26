@@ -48,11 +48,12 @@
             const points = 361;
             const outerRadius = 1000;
             const nTurns = document.getElementById("turns-number").value || 150;
-            const deltaPhi = nTurns * Math.PI / points;
+            const deltaPhi = nTurns * 2 * Math.PI / points;
             const star = [];
             for (let i = 0; i < points; i++) {
-                const px = (Math.cos((Math.PI / 2) + deltaPhi * i) + 1) * 0.5 * outerRadius;
-                const py = (Math.sin((Math.PI / 2) + deltaPhi * i) + 1) * 0.5 * outerRadius;
+                const angle = i * deltaPhi + (Math.PI / 2);
+                const px = (Math.cos(angle) + 1) * 0.5 * outerRadius;
+                const py = (Math.sin(angle) + 1) * 0.5 * outerRadius;
                 star.push(`${px.toFixed(2)},${py.toFixed(2)}`);
             }
             return star.join(' ');
@@ -62,16 +63,18 @@
             const points = 361;
             const outerRadius = 1000;
             const innerRadius = document.getElementById("inner-d").value || 50;
-            const center = (outerRadius - innerRadius) * 0.5;
+            const center = outerRadius * 0.5;
             const nTurns = document.getElementById("turns-number").value || 1;
             const deltaPhi = nTurns * Math.PI / points;
             const star = [];
             for (let i = 0; i < points; i++) {
                 const index = i * 2;
-                const p1x = (Math.cos((Math.PI / 2) + deltaPhi * index) + 1) * 0.5 * outerRadius;
-                const p1y = (Math.sin((Math.PI / 2) + deltaPhi * index) + 1) * 0.5 * outerRadius;
-                const p2x = (Math.cos((Math.PI / 2) + deltaPhi * (index + 1)) + 1) * 0.5 * innerRadius + center;
-                const p2y = (Math.sin((Math.PI / 2) + deltaPhi * (index + 1)) + 1) * 0.5 * innerRadius + center;
+                const outAngle = index * deltaPhi + (Math.PI / 2);
+                const inAngle = (index + 1) * deltaPhi + (Math.PI / 2);
+                const p1x = Math.cos(outAngle) * 0.5 * outerRadius + center;
+                const p1y = Math.sin(outAngle) * 0.5 * outerRadius + center;
+                const p2x = Math.cos(inAngle) * 0.5 * innerRadius + center;
+                const p2y = Math.sin(inAngle) * 0.5 * innerRadius + center;
                 star.push(`${p1x.toFixed(2)},${p1y.toFixed(2)} ${p2x.toFixed(2)},${p2y.toFixed(2)}`);
             }
             return star.join(' ');
@@ -90,10 +93,12 @@
             const star = [];
             for (let i = 0; i < points; i++) {
                 const index = i * 2;
-                const p1x = (Math.cos(dir * deltaPhi * index - (Math.PI / 2)) + 1) * 0.5 * outerRadius;
-                const p1y = (Math.sin(dir * deltaPhi * index - (Math.PI / 2)) + 1) * 0.5 * outerRadius;
-                const p2x = (Math.cos(dir * deltaPhi * (index + 1) - (Math.PI / 2)) + 1) * 0.5 * innerRadius + center;
-                const p2y = (Math.sin(dir * deltaPhi * (index + 1) - (Math.PI / 2)) + 1) * 0.5 * innerRadius + center;
+                const outAngle = index * deltaPhi * dir + (Math.PI / 2);
+                const inAngle = (index + 1) * deltaPhi * dir + (Math.PI / 2);
+                const p1x = Math.cos(outAngle) * 0.5 * outerRadius + center;
+                const p1y = Math.sin(outAngle) * 0.5 * outerRadius + center;
+                const p2x = Math.cos(inAngle) * 0.5 * innerRadius + center;
+                const p2y = Math.sin(inAngle) * 0.5 * innerRadius + center;
                 star.push(`${p1x.toFixed(2)},${p1y.toFixed(2)} ${p2x.toFixed(2)},${p2y.toFixed(2)}`);
             }
             return star.join(' ');
